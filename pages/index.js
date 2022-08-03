@@ -5,8 +5,9 @@ import clientPromise from '../lib/mongodb'
 import TodoItem from './todoItem'
 import InputField from './inputField.tsx'
 
+
 export default function Home({todos}) {
-  console.log(todos)
+  const todoList = JSON.parse(todos)
   return (
     <div className={styles.container}>
       <Head>
@@ -22,25 +23,12 @@ export default function Home({todos}) {
         {/* todos go here */}
         <InputField />
         <div className={styles.grid}>
-          
-          <TodoItem title="My Todo Item" text='Write More Documentation'/>
-          <TodoItem title="My Todo Item 2" text='Write Better Documentation'/>
-          <TodoItem title="My Todo Item 3" text='Write Cooler Documentation'/>
+        {todoList.map((todo) => (
+          <TodoItem title={todo.title} text={todo.text} completed={todo.completed} />
+        ))}
         </div>
       </main>
 
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <span className={styles.logo}>
-            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-          </span>
-        </a>
-      </footer>
     </div>
   )
 }

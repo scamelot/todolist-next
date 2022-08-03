@@ -10,16 +10,24 @@ export default async (req, res) => {
   if (req.method == "GET") {
     res.status(200).json({ todos })
   }
-  else if (req.method == 'POST') {
+  else if (req.method == ('POST' || 'PUT' )) {
     db.collection("todos").updateOne(
       {title : req.body.title},
       { $set: {
+          title: req.body.title,
           text: req.body.text,
-          completed : completed
+          completed : req.body.completed
       }},
       {
           upsert: true
       }
-  )
+    )
+    res.status(200).json('Success')
+  }
+  else if (req.method == 'DELETE') {
+    db.collection("todos").deleteOne(
+      {title:req.body.title}
+    )
+    res.json('Success')
   }
 }

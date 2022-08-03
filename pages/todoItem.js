@@ -1,18 +1,87 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
+import React, { useState } from 'react'
+import { useRouter } from "next/router";
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
+
+
 
 export default function TodoItem({ title, text, completed=false }) {
+
+  const router = useRouter()
+
+  const handleDelete = async (event) => {
+      event.preventDefault()
+    
+      const data = {
+        title: title
+      }
+  
+        const JSONdata = JSON.stringify(data)
+    
+      const endpoint = '/api/todo'
+    
+      const options = {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSONdata
+      }
+    
+      const response = await fetch(endpoint, options)
+    
+      const result = await response.json()
+      router.push({pathname: `/`}, undefined, {scroll: false})
+    }
+
+  const handleComplete = async (event) => {
+    if (completed) {
+      completed = false
+    }
+    else {
+      completed = true
+    }
+    event.preventDefault()
+    
+      const data = {
+        title: title,
+        text: text,
+        completed: completed 
+      }
+  
+        const JSONdata = JSON.stringify(data)
+    
+      const endpoint = '/api/todo'
+    
+      const options = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSONdata
+      }
+    
+      const response = await fetch(endpoint, options)
+    
+      const result = await response.json()
+      console.log(result)
+      router.push({pathname: `/`}, undefined, {scroll: false})
+    }
+
+
   return (
-    <div className={styles.card}>
-        <div>
+    <div className={completed ? styles.completed : styles.card}>
+        <div onClick={handleComplete}>
             <h2>{title}</h2>
             <p>{text}</p>
         </div>
-        <div className="justify-end">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 align-top hover:w-10 h-20 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-            </svg>
+        <div className="justify-end z-10">
+            <DeleteIcon onClick={handleDelete} fontSize="large"/>
         </div>
         </div>
   )
