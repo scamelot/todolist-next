@@ -10,6 +10,12 @@ import CssBaseline from '@mui/material/CssBaseline';
 
 const darkTheme = createTheme({
   palette: {
+    primary: {
+      // light: will be calculated from palette.primary.main,
+      main: '#ff6064',
+      // dark: will be calculated from palette.primary.main,
+      // contrastText: will be calculated to contrast with palette.primary.main
+    },
     mode: 'dark',
   },
 });
@@ -68,9 +74,9 @@ export default function InputField() {
             onSubmit={handleSubmit}
             >
             <ThemeProvider theme={darkTheme}>
-            <TextField className="border-white text-white" onChange={handleChange} name="titleText" label="Title" variant="outlined" />
+            <TextField className="border-white text-white" onEnter={handleSubmit} onChange={handleChange} name="titleText" label="Title" variant="outlined" />
             <TextField name="textText" label="Text" variant="outlined" onChange={handleText} />
-            <Button onClick={handleSubmit}>Add Item</Button>
+            <Button onClick={handleSubmit} type="submit">Add Item</Button>
             </ThemeProvider>
             </Box>
         )
