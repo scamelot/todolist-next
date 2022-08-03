@@ -74,7 +74,7 @@ export default function InputField() {
             onSubmit={handleSubmit}
             >
             <ThemeProvider theme={darkTheme}>
-            <TextField className="border-white text-white" onEnter={handleSubmit} onChange={handleChange} name="titleText" label="Title" variant="outlined" />
+            <TextField className="border-white text-white" onChange={handleChange} name="titleText" label="Title" variant="outlined" />
             <TextField name="textText" label="Text" variant="outlined" onChange={handleText} />
             <Button onClick={handleSubmit} type="submit">Add Item</Button>
             </ThemeProvider>
