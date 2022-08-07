@@ -37,8 +37,8 @@ export default function Home({todos}) {
         <InputField clickedTitle={title} clickedText={text} />
         </div>
         <div className={styles.grid}>
-        {todoList.map((todo) => (
-          <TodoItem setTitle={setTitle} setText={setText} title={todo.title} text={todo.text} completed={todo.completed} />
+        {todoList.reverse().map((todo) => (
+          <TodoItem key={todoList.indexOf(todo)} id={todo._id} title={todo.title} text={todo.text} completed={todo.completed} />
         ))}
         </div>
       </main>
