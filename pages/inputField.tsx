@@ -20,19 +20,24 @@ const darkTheme = createTheme({
   },
 });
 
-export default function InputField() {
+export default function InputField(clickedTitle, clickedText) {
 
   const router = useRouter()
 
   const [title, setTitle] = useState('');
   const [text, setText] = useState('');
-  
+
   const handleChange = (event) => {
       setTitle(event.target.value)
   }
 
   const handleText = (event) => {
     setText(event.target.value)
+  }
+
+  const handleClear = () => {
+        setTitle('')
+        setText('')
   }
 
   const handleSubmit = async (event) => {
@@ -43,6 +48,7 @@ export default function InputField() {
       text: text,
       completed: false
     }
+    handleClear()
 
       const JSONdata = JSON.stringify(data)
   
@@ -59,6 +65,7 @@ export default function InputField() {
     const response = await fetch(endpoint, options)
   
     const result = await response.json()
+
     router.push({
     pathname: `/`,
     })
@@ -67,16 +74,17 @@ export default function InputField() {
         <Box
             component="form"
             sx={{
-                '& > :not(style)': { m: 1, width: '25ch' },
+                '& > :not(style)': { m: 1, width: '25ch'},
             }}
             noValidate
             autoComplete="off"
             onSubmit={handleSubmit}
             >
             <ThemeProvider theme={darkTheme}>
-            <TextField className="border-white text-white" onChange={handleChange} name="titleText" label="Title" variant="outlined" />
-            <TextField name="textText" label="Text" variant="outlined" onChange={handleText} />
+            <TextField className="border-white text-white" value={title} onChange={handleChange} name="titleText" label="Title" variant="outlined" />
+            <TextField name="textText" label="Text" variant="outlined" onChange={handleText} value={text}/>
             <Button onClick={handleSubmit} type="submit">Add Item</Button>
+            <Button onClick={handleClear} sx={{ color: 'white', backgroundColor: 'blue', borderColor: 'blue' }}>Clear</Button>
             </ThemeProvider>
             </Box>
         )

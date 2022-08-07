@@ -10,9 +10,15 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 
 
-export default function TodoItem({ title, text, completed=false }) {
+export default function TodoItem({ setTitle, setText, title, text, completed=false }) {
 
   const router = useRouter()
+
+  const handleClick = async (event) => {
+    setTitle(title)
+    setText(text)
+    console.log(title,text)
+  }
 
   const handleDelete = async (event) => {
       event.preventDefault()
@@ -75,12 +81,12 @@ export default function TodoItem({ title, text, completed=false }) {
 
 
   return (
-    <div className={completed ? styles.completed : styles.card}>
+    <div className={completed ? styles.completed : styles.card} onClick={handleClick}>
         <div onClick={handleComplete}>
             <h2>{title}</h2>
             <p>{text}</p>
         </div>
-        <div className="justify-end z-10">
+        <div className="justify-end">
             <DeleteIcon onClick={handleDelete} fontSize="large"/>
         </div>
         </div>
